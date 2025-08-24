@@ -310,5 +310,3 @@ Overall Letter Grade: B
 * Fully **console-based**, no GUI.
 
 ---
-
-If you want, I can also **draw a flowchart showing how marks → weighted percentage → GPA → overall grade**, which makes it visually very easy to understand.
