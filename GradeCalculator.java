@@ -36,47 +36,75 @@ public class GradeCalculator {
         // Weight distribution
         try (Scanner sc = new Scanner(System.in)) {
             // Weight distribution
-            double midtermWeight = 0.30;     // 30%
-            double assignmentWeight = 0.20;  // 20%
-            double classPerfWeight = 0.10;   // 10%
-            double finalExamWeight = 0.40;   // 40%
+            double midtermWeight = 0.30;
+            double assignmentWeight = 0.20;
+            double classPerfWeight = 0.10;
+            double finalExamWeight = 0.40;
             
-            // Take input with obtained + total
-            System.out.print("Enter Midterm Marks (obtained / total): ");
-            double midtermObt = sc.nextDouble();
-            double midtermTotal = sc.nextDouble();
+            System.out.print("Enter number of subjects: ");
+            int n = sc.nextInt();
+            sc.nextLine(); // consume newline
             
-            System.out.print("Enter Assignment Marks (obtained / total): ");
-            double assignmentObt = sc.nextDouble();
-            double assignmentTotal = sc.nextDouble();
+            double totalPercentage = 0;
+            double totalGPA = 0;
             
-            System.out.print("Enter Class Performance Marks (obtained / total): ");
-            double classPerfObt = sc.nextDouble();
-            double classPerfTotal = sc.nextDouble();
+            for (int subj = 1; subj <= n; subj++) {
+                System.out.print("\nEnter name of Subject " + subj + ": ");
+                String subjectName = sc.nextLine();
+                
+                // Input marks for each component
+                System.out.print("Enter Midterm Marks (obtained / total): ");
+                double midObt = sc.nextDouble();
+                double midTotal = sc.nextDouble();
+                
+                System.out.print("Enter Assignment Marks (obtained / total): ");
+                double assignObt = sc.nextDouble();
+                double assignTotal = sc.nextDouble();
+                
+                System.out.print("Enter Class Performance Marks (obtained / total): ");
+                double cpObt = sc.nextDouble();
+                double cpTotal = sc.nextDouble();
+                
+                System.out.print("Enter Final Exam Marks (obtained / total): ");
+                double finalObt = sc.nextDouble();
+                double finalTotal = sc.nextDouble();
+                
+                sc.nextLine(); // consume newline for next subject
+                
+                // Calculate percentages
+                double midPerc = (midObt / midTotal) * 100;
+                double assignPerc = (assignObt / assignTotal) * 100;
+                double cpPerc = (cpObt / cpTotal) * 100;
+                double finalPerc = (finalObt / finalTotal) * 100;
+                
+                // Weighted percentage
+                double percentage = (midPerc * midtermWeight) +
+                        (assignPerc * assignmentWeight) +
+                        (cpPerc * classPerfWeight) +
+                        (finalPerc * finalExamWeight);
+                
+                String grade = getLetterGrade(percentage);
+                double gpa = getGPA(percentage);
+                
+                // Print subject result
+                System.out.println("\nResult for " + subjectName + ":");
+                System.out.println("Percentage: " + String.format("%.2f", percentage) + "%");
+                System.out.println("Letter Grade: " + grade);
+                System.out.println("GPA: " + gpa);
+                
+                // Add to overall totals
+                totalPercentage += percentage;
+                totalGPA += gpa;
+            }
             
-            System.out.print("Enter Final Exam Marks (obtained / total): ");
-            double finalExamObt = sc.nextDouble();
-            double finalExamTotal = sc.nextDouble();
+            // Final overall result
+            double avgPercentage = totalPercentage / n;
+            double avgGPA = totalGPA / n;
             
-            // Calculate weighted percentage
-            double midtermPerc = (midtermObt / midtermTotal) * 100;
-            double assignmentPerc = (assignmentObt / assignmentTotal) * 100;
-            double classPerfPerc = (classPerfObt / classPerfTotal) * 100;
-            double finalExamPerc = (finalExamObt / finalExamTotal) * 100;
-            
-            double percentage = (midtermPerc * midtermWeight) +
-                    (assignmentPerc * assignmentWeight) +
-                    (classPerfPerc * classPerfWeight) +
-                    (finalExamPerc * finalExamWeight);
-            
-            // Results
-            String grade = getLetterGrade(percentage);
-            double gpa = getGPA(percentage);
-            
-            System.out.println("\n===== Final Result =====");
-            System.out.println("Overall Percentage: " + String.format("%.2f", percentage) + "%");
-            System.out.println("Letter Grade: " + grade);
-            System.out.println("GPA: " + gpa);
-        } // 30%
+            System.out.println("\n===== Overall Result =====");
+            System.out.println("Average Percentage: " + String.format("%.2f", avgPercentage) + "%");
+            System.out.println("Average GPA: " + String.format("%.2f", avgGPA));
+            System.out.println("Overall Letter Grade: " + getLetterGrade(avgPercentage));
+        }
     }
 }
